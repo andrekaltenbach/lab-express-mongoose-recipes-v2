@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const Recipe = require('./models/Recipe.model');
 
 const app = express();
 
@@ -30,7 +31,16 @@ app.get('/', (req, res) => {
 });
 
 //  Iteration 3 - Create a Recipe route
-//  POST  /recipes route
+app.post('/recipes', (req, res) => {
+  const newRecipe = req.body;
+  Recipe.create(newRecipe)
+    .then((recipe) => res.status(201).json(recipe))
+    .catch((err) => {
+      console.log('error: failed to create recipe');
+      console.log(err);
+      res.status(500).json({ error: 'failed to create recipe' });
+    });
+});
 
 //  Iteration 4 - Get All Recipes
 //  GET  /recipes route
