@@ -82,7 +82,16 @@ app.put('/recipes/:Id', (req, res) => {
 });
 
 //  Iteration 7 - Delete a Single Recipe
-//  DELETE  /recipes/:id route
+app.delete('/recipes/:Id', (req, res) => {
+  const { Id } = req.params;
+  Recipe.findByIdAndDelete(Id)
+    .then((recipe) => res.status(204).send())
+    .catch((err) => {
+      console.log(`error: failed to delete recipe with id: ${id}`);
+      console.log(err);
+      res.status(500).json({ error: `failed to delete recipe with id: ${id}` });
+    });
+});
 
 // Start the server
 app.listen(3000, () => console.log('My first app listening on port 3000!'));
