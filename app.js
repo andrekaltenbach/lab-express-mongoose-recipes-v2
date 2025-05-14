@@ -62,9 +62,9 @@ app.get('/recipes/:Id', (req, res) => {
   Recipe.findById(Id)
     .then((recipe) => res.status(200).json(recipe))
     .catch((err) => {
-      console.log(`error: failed to get recipe with id: ${_id}`);
+      console.log(`error: failed to get recipe with id: ${Id}`);
       console.log(err);
-      res.status(500).json({ error: `failed to get recipe with id: ${_id}` });
+      res.status(500).json({ error: `failed to get recipe with id: ${Id}` });
     });
 });
 
@@ -87,9 +87,9 @@ app.delete('/recipes/:Id', (req, res) => {
   Recipe.findByIdAndDelete(Id)
     .then((recipe) => res.status(204).send())
     .catch((err) => {
-      console.log(`error: failed to delete recipe with id: ${id}`);
+      console.log(`error: failed to delete recipe with id: ${Id}`);
       console.log(err);
-      res.status(500).json({ error: `failed to delete recipe with id: ${id}` });
+      res.status(500).json({ error: `failed to delete recipe with id: ${Id}` });
     });
 });
 
