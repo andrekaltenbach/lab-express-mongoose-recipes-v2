@@ -13,6 +13,7 @@ app.use(express.json());
 // Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
 const MONGODB_URI = 'mongodb://127.0.0.1:27017/express-mongoose-recipes-dev';
+
 mongoose
   .connect(MONGODB_URI)
   .then((x) => {
@@ -23,6 +24,8 @@ mongoose
     console.log(err);
     res.status(500).json({ error: 'error: connnecting to database failed' });
   });
+
+mongoose.set('runValidators', true);
 
 // ROUTES
 //  GET  / route - This is just an example route
@@ -66,7 +69,17 @@ app.get('/recipes/:Id', (req, res) => {
 });
 
 //  Iteration 6 - Update a Single Recipe
-//  PUT  /recipes/:id route
+app.put('/recipes/:Id', (req, res) => {
+  const { Id } = req.params;
+  const editRecipe = req.body;
+  Recipe.findByIdAndUpdate(Id, editRecipe, { new: true })
+    .then((recipe) => res.status(200).json(recipe))
+    .catch((err) => {
+      console.log(`error: failed to update recipe with id: ${Id}`);
+      console.log(err);
+      res.status(500).json({ error: `failed to update recipe with id: ${Id}` });
+    });
+});
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
